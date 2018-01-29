@@ -1,7 +1,7 @@
 from soccersimulator import Strategy, SoccerAction, Vector2D
 from soccersimulator import SoccerTeam, Simulation
 from soccersimulator import show_simu
-from outil import  posi_player
+
 PLAYER_RADIUS = 1. # Rayon d un joueur
 BALL_RADIUS = 0.65 # Rayon de la balle
 
