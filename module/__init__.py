@@ -1,8 +1,14 @@
 import sys
 
 from soccersimulator import SoccerTeam
-from .Strategie import Fonceur
+from .strategie import Fonceur
+from .strategie import Fonceur_intelligent
 from .Outil import Outil
+from soccersimulator import Strategy, SoccerAction, Vector2D
+from soccersimulator import SoccerTeam, Simulation
+from soccersimulator import show_simu
+from .Outil import Outil
+from soccersimulator.settings import *
 
 def get_team(nb_players):
 	myteam = SoccerTeam(name="MaTeam")

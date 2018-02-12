@@ -13,6 +13,7 @@ class Outil(object):
 		if (self.team == 1):
 			return (0,GAME_HEIGHT/2)
 		return (GAME_WIDTH, GAME_HEIGHT/2)
+	
 	def posi_ball(self):
 		return self.state.ball.position
 	def posi_player(self):
@@ -25,7 +26,54 @@ class Outil(object):
 		if (self.dist_player_ball() < PLAYER_RADIUS + BALL_RADIUS):
 			return True
 		return False
+	def bonne_precision(self):
+		return (Vector2D(GAME_WIDTH,GAME_HEIGHT/2) - self.posi_ball())/3.5
+	def mauvaise_precision(self):
+		return (Vector2D(GAME_WIDTH,GAME_HEIGHT/2) - self.posi_ball())/15
+	def tir_bonne_precision(self):
+		return SoccerAction(self.vect_player_ball(),self.bonne_precision())
+	def tir_mauvaise_precision(self):
+		return SoccerAction(self.vect_player_ball(),self.mauvaise_precision())
+	def courir_vers_ball(self):
+		return SoccerAction(self.vect_player_ball(),0)
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

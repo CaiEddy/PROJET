@@ -13,14 +13,14 @@ class Fonceur(Strategy):
 		if (outil.peut_tirer()):
 			if (id_team == 1):
 				if (outil.posi_ball().x > (GAME_WIDTH*(3/4))):
-					return SoccerAction(outil.vect_player_ball() ,(Vector2D(GAME_WIDTH,GAME_HEIGHT/2) - outil.posi_ball())/3.5)
-				return SoccerAction(outil.vect_player_ball() ,(Vector2D(GAME_WIDTH,GAME_HEIGHT/2) - outil.posi_ball())/15)
+					return outil.tir_bonne_precision()
+				return outil.tir_mauvaise_precision()
 			if (id_team == 2):
 				if (outil.posi_ball().x < GAME_WIDTH*(1/4)):
-					return SoccerAction(outil.vect_player_ball() ,(Vector2D(0,GAME_HEIGHT/2) - outil.posi_ball())/3.5)
-				return SoccerAction(outil.vect_player_ball() ,(Vector2D(0,GAME_HEIGHT/2) - outil.posi_ball())/15)
+					return outil.tir_bonne_precision()
+				return outil.tir_mauvaise_precision()
 		else:
-			return SoccerAction(outil.vect_player_ball() ,0)
+			return outil.courir_vers_ball()
 				
 
 ## Strategie aleatoire
