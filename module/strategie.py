@@ -11,14 +11,7 @@ class Fonceur(Strategy):
 	def compute_strategy(self,state,id_team,id_player):
 		outil = Outil(state, id_team, id_player)
 		if (outil.peut_tirer()):
-			if (id_team == 1):
-				if (outil.posi_ball().x > (GAME_WIDTH*(3/4))):
-					return outil.tir_bonne_precision()
-				return outil.tir_mauvaise_precision()
-			if (id_team == 2):
-				if (outil.posi_ball().x < GAME_WIDTH*(1/4)):
-					return outil.tir_bonne_precision()
-				return outil.tir_mauvaise_precision()
+			return outil.tir(id_team)
 		else:
 			return outil.courir_vers_ball()
 				
@@ -30,30 +23,61 @@ class RandomStrategy(Strategy):
 	def compute_strategy(self,state,id_team,id_player):
 		return SoccerAction(Vector2D.create_random(-200,200),0)
 		
-## Fonceur intelligent
-class Fonceur_intelligent(Strategy):
+## Defenseur
+class Defenseur(Strategy):
 	def __init__(self):
 		Strategy.__init__(self,"Random")	
 	def compute_strategy(self,state,id_team,id_player):
-		if ((state.ball.position - state.player_state(id_team,id_player).position).norm < 50):
-			outil = Outil(state, id_team, id_player)
+		outil = Outil(state, id_team, id_player)
+		if (outil.ball_dans_rayon_but(id_team)):
 			if (outil.peut_tirer()):
-				if (id_team == 1):
-					if (outil.posi_ball().x > (GAME_WIDTH*(3/4))):
-						return SoccerAction(outil.vect_player_ball() ,(Vector2D(GAME_WIDTH,GAME_HEIGHT/2) - outil.posi_ball())/3.5)
-					return SoccerAction(outil.vect_player_ball() ,(Vector2D(GAME_WIDTH,GAME_HEIGHT/2) - outil.posi_ball())/15)
-				if (id_team == 2):
-					if (outil.posi_ball().x < GAME_WIDTH*(1/4)):
-						return SoccerAction(outil.vect_player_ball() ,(Vector2D(0,GAME_HEIGHT/2) - outil.posi_ball())/3.5)
-					return SoccerAction(outil.vect_player_ball() ,(Vector2D(0,GAME_HEIGHT/2) - outil.posi_ball())/15)
-			else:
-				return SoccerAction(outil.vect_player_ball() ,0)
+				return outil.defendre(id_team)
+			return outil.courir_vers_ball()
 		else:
-			return SoccerAction(0,0)
+			return outil.revenir_posi_def(id_team)
 			
 			
 			
+## Bon_joueur
+	
+class Bon_joueur(Strategy):
+	def __init__(self):
+		Strategy.__init__(self,"Random")	
+	def compute_strategy(self,state,id_team,id_player):
+		outil = Outil(state, id_team, id_player)
+		if (outil.peut_jouer()):
+			if (outil.adversaire_devant_player_haut()):
+				if (outil.peut_tirer()):
+					return outil.tir_vers_milieu_bas()
+				return outil.courir_vers_ball()
+			if (outil.adversaire_devant_player_bas()):
+				if (outil.peut_tirer()):
+					return outil.tir_vers_milieu_haut()
+				return outil.courir_vers_ball()
 			
-			
-			
+			else:
+				if (outil.peut_tirer()):
+					return outil.tir(id_team)
+				else:
+					return outil.courir_vers_ball()
+		return outil.rien_faire()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			

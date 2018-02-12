@@ -2,7 +2,8 @@ import sys
 
 from soccersimulator import SoccerTeam
 from .strategie import Fonceur
-from .strategie import Fonceur_intelligent
+from .strategie import Defenseur
+from .strategie import Bon_joueur
 from .Outil import Outil
 from soccersimulator import Strategy, SoccerAction, Vector2D
 from soccersimulator import SoccerTeam, Simulation
