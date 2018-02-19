@@ -3,7 +3,8 @@ import sys
 from soccersimulator import SoccerTeam
 from .strategie import Fonceur
 from .strategie import Defenseur
-from .strategie import Bon_joueur
+from .strategie import Bon_joueur_1v1
+from .strategie import Bon_joueur_2v2
 from .Outil import Outil
 from soccersimulator import Strategy, SoccerAction, Vector2D
 from soccersimulator import SoccerTeam, Simulation
@@ -14,15 +15,15 @@ from soccersimulator.settings import *
 def get_team(nb_players):
 	myteam = SoccerTeam(name="MaTeam")
 	if nb_players == 1:
-		myteam.add("Joueur " ,Fonceur())
+		myteam.add("Joueur " ,Bon_joueur_1v1())
 	if nb_players == 2:
-		myteam.add("Joueur 1", Fonceur())
-		myteam.add("Joueur 2", Fonceur())
+		myteam.add("Joueur 1",Bon_joueur_2v2())
+		myteam.add("Joueur 2",Defenseur())
 	if nb_players == 4:
-		myteam.add("Joueur 1",Fonceur())
+		myteam.add("Joueur 1",Defenseur())
 		myteam.add("Joueur 2",Fonceur())
-		myteam.add("Joueur 3",Fonceur())
-		myteam.add("Joueur 4",Fonceur())
+		myteam.add("Joueur 3",Bon_joueur_2v2())
+		myteam.add("Joueur 4",Defenseur())
 	return myteam	
 
 def get_team_challenge(num):

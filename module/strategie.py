@@ -10,11 +10,15 @@ class Fonceur(Strategy):
 		Strategy.__init__(self,"Random")	
 	def compute_strategy(self,state,id_team,id_player):
 		outil = Outil(state, id_team, id_player)
-		if (outil.peut_tirer()):
-			return outil.tir(id_team)
-		else:
-			return outil.courir_vers_ball()
-				
+		return outil.attaque_fonceur(id_team)
+
+class FonceurTest(Strategy):
+	def __init__(self, force=1):
+		Strategy.__init__(self,"Random")
+		self.force = force
+	def compute_strategy(self,state,id_team,id_player):
+		outil = Outil(state, id_team, id_player, force=self.force)
+		return outil.attaque_fonceur(id_team)
 
 ## Strategie aleatoire
 class RandomStrategy(Strategy):
@@ -29,44 +33,31 @@ class Defenseur(Strategy):
 		Strategy.__init__(self,"Random")	
 	def compute_strategy(self,state,id_team,id_player):
 		outil = Outil(state, id_team, id_player)
-		if (outil.ball_dans_rayon_but(id_team)):
-			if (outil.peut_tirer()):
-				return outil.defendre(id_team)
-			return outil.courir_vers_ball()
-		else:
-			return outil.revenir_posi_def(id_team)
+		return outil.defense(id_team)
 			
 			
 			
-## Bon_joueur
+## Bon_joueur_1v1
 	
-class Bon_joueur(Strategy):
+class Bon_joueur_1v1(Strategy):
 	def __init__(self):
 		Strategy.__init__(self,"Random")	
 	def compute_strategy(self,state,id_team,id_player):
 		outil = Outil(state, id_team, id_player)
-		if (outil.peut_jouer()):
-			if (outil.adversaire_devant_player_haut()):
-				if (outil.peut_tirer()):
-					return outil.tir_vers_milieu_bas()
-				return outil.courir_vers_ball()
-			if (outil.adversaire_devant_player_bas()):
-				if (outil.peut_tirer()):
-					return outil.tir_vers_milieu_haut()
-				return outil.courir_vers_ball()
-			
-			else:
-				if (outil.peut_tirer()):
-					return outil.tir(id_team)
-				else:
-					return outil.courir_vers_ball()
-		return outil.rien_faire()
+		return outil.dribbler_1v1(id_team)
 
 
-
-
-
-
+## Bon_joueur_2v2
+class Bon_joueur_2v2(Strategy):
+	def __init__(self):
+		Strategy.__init__(self,"Random")	
+	def compute_strategy(self,state,id_team,id_player):
+		outil = Outil(state, id_team, id_player)
+		if (outil.ball_devant_player(id_team)):
+			return outil.dribbler_1v1(id_team)
+		if (outil.recuperation_ball_pret()):
+			return outil.dribbler_1v1(id_team)
+		return outil.revenir_posi_counter(id_team)
 
 
 
