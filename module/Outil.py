@@ -32,9 +32,8 @@ class Outil(object):
 
 	def revenir_posi_def(self,id_team):
 		if (id_team == 1):
-			return SoccerAction(self.vect_player_posi(GAME_HEIGHT*1/8,(((self.posi_ball().y)- (GAME_HEIGHT/2))/self.posi_ball().x)*self.posi_player().x + GAME_HEIGHT/2),0)
-		return SoccerAction(Vector2D(GAME_HEIGHT*7/8,(((self.posi_ball().y)- (GAME_HEIGHT/2))/self.posi_ball().x)*self.posi_player().x + GAME_HEIGHT/2),0)
-
+			return SoccerAction(self.vect_player_posi(GAME_WIDTH*1/8,(((self.posi_ball().y)- (GAME_HEIGHT/2))/self.posi_ball().x)*self.posi_player().x + GAME_HEIGHT/2),0)
+		return SoccerAction(self.vect_player_posi((GAME_WIDTH)*99/100,(GAME_HEIGHT)*1/2),0)
 
 	def revenir_posi_counter(self,id_team):
 		if (id_team == 1):
@@ -97,17 +96,30 @@ class Outil(object):
 		idteam = 1 if self.team == 2 else 2
 		return self.state.player_state(idteam,0).position
 
-	def adversaire_devant_player_haut(self):
-		if (self.posi_player().x < self.posi_adversaire().x):
-			if (self.posi_player().y < self.posi_adversaire().y):
-				return True
-		return False
+	def adversaire_devant_player_haut(self,id_team):
+		if (id_team == 1):
+			if (self.posi_player().x < self.posi_adversaire().x):
+				if (self.posi_player().y < self.posi_adversaire().y):
+					return True
+			return False
+		if (id_team == 2):
+			if (self.posi_player().x > self.posi_adversaire().x):
+				if (self.posi_player().y < self.posi_adversaire().y):
+					return True
+			return False	
 
-	def adversaire_devant_player_bas(self):
-		if (self.posi_player().x < self.posi_adversaire().x):
-			if (self.posi_player().y > self.posi_adversaire().y):
-				return True
-		return False
+
+	def adversaire_devant_player_bas(self,id_team):
+		if (id_team == 1):
+			if (self.posi_player().x < self.posi_adversaire().x):
+				if (self.posi_player().y > self.posi_adversaire().y):
+					return True
+			return False
+		if (id_team == 2):
+			if (self.posi_player().x > self.posi_adversaire().x):
+				if (self.posi_player().y > self.posi_adversaire().y):
+					return True
+			return False
 
 
 	def tir_vers_milieu_bas(self):
@@ -119,10 +131,10 @@ class Outil(object):
 
 
 	def tir_vers_milieu_bas_def(self):
-		return SoccerAction(self.vect_player_ball(), (Vector2D((GAME_WIDTH)*1/2,(GAME_HEIGHT)*1/4) - self.posi_ball())/10)
+		return SoccerAction(self.vect_player_ball(), (Vector2D((GAME_WIDTH)*1/2,(GAME_HEIGHT)*1/4) - self.posi_ball())/8)
 
 	def tir_vers_milieu_haut_def(self):
-		return SoccerAction(self.vect_player_ball(), (Vector2D((GAME_WIDTH)*1/2,(GAME_HEIGHT)*3/4) - self.posi_ball())/10)
+		return SoccerAction(self.vect_player_ball(), (Vector2D((GAME_WIDTH)*1/2,(GAME_HEIGHT)*3/4) - self.posi_ball())/8)
 
 
 	def peut_jouer(self):
@@ -131,7 +143,7 @@ class Outil(object):
 		return False
 
 	def recuperation_ball_pret(self):
-		if (self.dist_player_ball() < 5):
+		if (self.dist_player_ball() < 10):
 			return True
 		return False
 
@@ -151,11 +163,11 @@ class Outil(object):
 			
 	def defense_2v2(self,id_team):
 		if (self.ball_dans_rayon_but(id_team)):
-			if (self.adversaire_devant_player_haut()):
+			if (self.adversaire_devant_player_haut(id_team)):
 				if (self.peut_tirer()):
 					return self.tir_vers_milieu_bas_def()
 				return self.courir_vers_ball()
-			if (self.adversaire_devant_player_bas()):
+			if (self.adversaire_devant_player_bas(id_team)):
 				if (self.peut_tirer()):
 					return self.tir_vers_milieu_haut_def()
 				return self.courir_vers_ball()
@@ -165,11 +177,11 @@ class Outil(object):
 
 	def dribbler_1v1(self,id_team):
 		if (self.peut_jouer()):
-			if (self.adversaire_devant_player_haut()):
+			if (self.adversaire_devant_player_haut(id_team)):
 				if (self.peut_tirer()):
 					return self.tir_vers_milieu_bas()
 				return self.courir_vers_ball()
-			if (self.adversaire_devant_player_bas()):
+			if (self.adversaire_devant_player_bas(id_team)):
 				if (self.peut_tirer()):
 					return self.tir_vers_milieu_haut()
 				return self.courir_vers_ball()

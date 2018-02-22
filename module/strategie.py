@@ -25,7 +25,7 @@ class RandomStrategy(Strategy):
 	def __init__(self):
 		Strategy.__init__(self,"Random")
 	def compute_strategy(self,state,id_team,id_player):
-		return SoccerAction(Vector2D.create_random(-200,200),0)
+		return SoccerAction(Vector2D.create_random(10,10),0)
 		
 ## Defenseur
 class Defenseur(Strategy):
@@ -34,6 +34,14 @@ class Defenseur(Strategy):
 	def compute_strategy(self,state,id_team,id_player):
 		outil = Outil(state, id_team, id_player)
 		return outil.defense(id_team)
+
+## Defenseur_2v2
+class Defenseur_2v2(Strategy):
+	def __init__(self):
+		Strategy.__init__(self,"Random")	
+	def compute_strategy(self,state,id_team,id_player):
+		outil = Outil(state, id_team, id_player)
+		return outil.defense_2v2(id_team)
 			
 			
 			
