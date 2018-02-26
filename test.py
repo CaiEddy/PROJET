@@ -15,13 +15,12 @@ pyteam = SoccerTeam(name="VousAllezPerdre, Don't be Mad :)")
 thon = SoccerTeam(name="ThonTeam")
 
 
-
 pyteam.add("PyPlayer",Fonceur())
 pyteam.add("PyPlayer",Defenseur_2v2())
 
-
 thon.add("ThonPlayer",Bon_joueur_2v2())
 thon.add("ThonPlayer",Defenseur_2v2())
+
 
 
 

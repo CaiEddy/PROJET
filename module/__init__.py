@@ -14,7 +14,7 @@ from .Outil import Outil
 from soccersimulator.settings import *
 
 def get_team(nb_players):
-	myteam = SoccerTeam(name="VousAllezPerdre, Don't be Mad :)")
+	myteam = SoccerTeam(name="toctoctoc")
 	if nb_players == 1:
 		myteam.add("Joueur " ,Bon_joueur_1v1())
 	if nb_players == 2:

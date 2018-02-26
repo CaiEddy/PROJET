@@ -14,7 +14,9 @@ class Outil(object):
 		if (self.team == 1):
 			return (0,GAME_HEIGHT/2)
 		return (GAME_WIDTH, GAME_HEIGHT/2)
-	
+		
+	def vitesse_ball(self):
+		return self.state.ball.vitesse	
 	def posi_ball(self):
 		return self.state.ball.position
 	def posi_player(self):
@@ -27,13 +29,14 @@ class Outil(object):
 		if (self.dist_player_ball() < PLAYER_RADIUS + BALL_RADIUS):
 			return True
 		return False
+
 	def vect_player_posi(self,x,y):
 		return Vector2D(x,y) - self.posi_player()
 
 	def revenir_posi_def(self,id_team):
 		if (id_team == 1):
-			return SoccerAction(self.vect_player_posi(GAME_WIDTH*1/8,(((self.posi_ball().y)- (GAME_HEIGHT/2))/self.posi_ball().x)*self.posi_player().x + GAME_HEIGHT/2),0)
-		return SoccerAction(self.vect_player_posi((GAME_WIDTH)*99/100,(GAME_HEIGHT)*1/2),0)
+			return SoccerAction(self.vect_player_posi(GAME_WIDTH*1/8,(((self.posi_ball().y)- (GAME_HEIGHT/2))/self.posi_ball().x)*(GAME_WIDTH*1/8) + GAME_HEIGHT/2),0)
+		return SoccerAction(self.vect_player_posi(GAME_WIDTH*7/8,((((self.posi_ball().y)- (GAME_HEIGHT/2))/((self.posi_ball().x) - (GAME_WIDTH)))*(GAME_WIDTH*7/8) + GAME_HEIGHT/2 - (((self.posi_ball().y)- (GAME_HEIGHT/2))/((self.posi_ball().x)-(GAME_WIDTH)))*GAME_WIDTH)),0)
 
 	def revenir_posi_counter(self,id_team):
 		if (id_team == 1):
@@ -44,8 +47,8 @@ class Outil(object):
 	
 	def ball_dans_rayon_but(self, id_team):
 		if (id_team == 1):
-			return self.posi_ball().x < (GAME_WIDTH)*3/8
-		return self.posi_ball().x > (GAME_WIDTH)*5/8
+			return self.posi_ball().x < (GAME_WIDTH)*2/5
+		return self.posi_ball().x > (GAME_WIDTH)*3/5
 
 
 	def defendre(self, id_team):
@@ -68,25 +71,31 @@ class Outil(object):
 		
 
 	def tir_bonne_precision(self,id_team):
-		return SoccerAction(self.vect_player_ball(),self.force * self.bonne_precision(id_team))
+		return SoccerAction(self.vect_player_ball(),self.bonne_precision(id_team))
 	def tir_mauvaise_precision(self,id_team):
 		return SoccerAction(self.vect_player_ball(),self.mauvaise_precision(id_team))
 
 
 	def tir(self, id_team):
 		if (id_team == 1):
-			if (self.posi_ball().x > (GAME_WIDTH*(3/4))):
+			if (self.posi_ball().x > (GAME_WIDTH*3/4)):
 				return self.tir_bonne_precision(id_team)
 			return self.tir_mauvaise_precision(id_team)
 		if (id_team == 2):
-			if (self.posi_ball().x < GAME_WIDTH*(1/4)):
+			if (self.posi_ball().x < (GAME_WIDTH*1/4)):
 				return self.tir_bonne_precision(id_team)
 			return self.tir_mauvaise_precision(id_team)
 
 
 	def courir_vers_ball(self):
 		return SoccerAction(self.vect_player_ball(),0)
+		
+	def courir_vers_ball_predi(self):
+		return SoccerAction(self.vect_player_posi(self.predire_la_balle().x,self.predire_la_balle().y),0)
 
+	def predire_la_balle(self):
+		Constante = 0.8*self.dist_player_ball()
+		return self.posi_ball() + Constante*self.vitesse_ball()
 
 	def rien_faire(self):
 		return SoccerAction(0,0)
@@ -150,13 +159,13 @@ class Outil(object):
 	def attaque_fonceur(self,id_team):
 		if (self.peut_tirer()):
 			return self.tir(id_team)
-		return self.courir_vers_ball()
+		return self.courir_vers_ball_predi()
 
 	def defense(self,id_team):
 		if (self.ball_dans_rayon_but(id_team)):
 			if (self.peut_tirer()):
 				return self.defendre(id_team)
-			return self.courir_vers_ball()
+			return self.courir_vers_ball_predi()
 		else:
 			return self.revenir_posi_def(id_team)
 
@@ -166,11 +175,11 @@ class Outil(object):
 			if (self.adversaire_devant_player_haut(id_team)):
 				if (self.peut_tirer()):
 					return self.tir_vers_milieu_bas_def()
-				return self.courir_vers_ball()
+				return self.courir_vers_ball_predi()
 			if (self.adversaire_devant_player_bas(id_team)):
 				if (self.peut_tirer()):
 					return self.tir_vers_milieu_haut_def()
-				return self.courir_vers_ball()
+				return self.courir_vers_ball_predi()
 			
 		return self.revenir_posi_def(id_team)
 
@@ -180,11 +189,11 @@ class Outil(object):
 			if (self.adversaire_devant_player_haut(id_team)):
 				if (self.peut_tirer()):
 					return self.tir_vers_milieu_bas()
-				return self.courir_vers_ball()
+				return self.courir_vers_ball_predi()
 			if (self.adversaire_devant_player_bas(id_team)):
 				if (self.peut_tirer()):
 					return self.tir_vers_milieu_haut()
-				return self.courir_vers_ball()
+				return self.courir_vers_ball_predi()
 			return self.attaque_fonceur(id_team)
 		return self.revenir_posi_attaquant(id_team)
 
