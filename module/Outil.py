@@ -39,9 +39,10 @@ class Outil(object):
 		return SoccerAction(self.vect_player_posi(GAME_WIDTH*7/8,((((self.posi_ball().y)- (GAME_HEIGHT/2))/((self.posi_ball().x) - (GAME_WIDTH)))*(GAME_WIDTH*7/8) + GAME_HEIGHT/2 - (((self.posi_ball().y)- (GAME_HEIGHT/2))/((self.posi_ball().x)-(GAME_WIDTH)))*GAME_WIDTH)),0)
 
 	def revenir_posi_counter(self,id_team):
-		if (id_team == 1):
+		if (self.posi_adversaire().y < GAME_HEIGHT/2):
 			return SoccerAction(self.vect_player_posi((GAME_WIDTH)*1/2,(GAME_HEIGHT)*3/4),0)
-		return SoccerAction(self.vect_player_posi((GAME_WIDTH)*1/2,(GAME_HEIGHT)*3/4),0)
+		return SoccerAction(self.vect_player_posi((GAME_WIDTH)*1/2,(GAME_HEIGHT)*1/4),0)
+		
 
 
 	
@@ -94,7 +95,7 @@ class Outil(object):
 		return SoccerAction(self.vect_player_posi(self.predire_la_balle().x,self.predire_la_balle().y),0)
 
 	def predire_la_balle(self):
-		Constante = 0.8*self.dist_player_ball()
+		Constante = 0.6*self.dist_player_ball()
 		return self.posi_ball() + Constante*self.vitesse_ball()
 
 	def rien_faire(self):

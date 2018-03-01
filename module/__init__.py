@@ -14,15 +14,15 @@ from .Outil import Outil
 from soccersimulator.settings import *
 
 def get_team(nb_players):
-	myteam = SoccerTeam(name="toctoctoc")
+	myteam = SoccerTeam(name="Vous Êtes Où dans le classement? En dessou de nous ;_;")
 	if nb_players == 1:
-		myteam.add("Joueur " ,Bon_joueur_1v1())
+		myteam.add("Le meilleur" ,Bon_joueur_1v1())
 	if nb_players == 2:
-		myteam.add("Joueur 1",Bon_joueur_2v2())
-		myteam.add("Joueur 2",Defenseur_2v2())
+		myteam.add("The Best",Bon_joueur_2v2())
+		myteam.add("The Wall",Defenseur_2v2())
 	if nb_players == 4:
 		myteam.add("Joueur 1",Defenseur_2v2())
-		myteam.add("Joueur 2",Bon_joueur_2v2())
+		myteam.add("Joueur 2",Fonceur())
 		myteam.add("Joueur 3",Bon_joueur_2v2())
 		myteam.add("Joueur 4",Defenseur_2v2())
 	return myteam	
