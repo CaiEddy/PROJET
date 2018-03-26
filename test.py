@@ -6,13 +6,15 @@ from module.strategie import Fonceur_brain
 from module.strategie import RandomStrategy
 from module.strategie import Defenseur
 from module.strategie import Defenseur_2v2
+from module.strategie import Defenseur_2v2_opti
 from module.strategie import Bon_joueur_1v1
 from module.strategie import Bon_joueur_2v2
+from module.strategie import *
 
 
 
 ## Creation d'une equipe
-pyteam = SoccerTeam(name="OnVaWin")
+pyteam = SoccerTeam(name="Je suis nul et je suis devant vous -_- ???? ?PROBLEM?")
 thon = SoccerTeam(name="ThonTeam")
 
 
